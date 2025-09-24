@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Mural Digital - Sobre Ela</title>
+  <script src="script.js"></script>
+<style>
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #fdfdfd;
+    margin: 0;
+    padding: 30px;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: #d81b60;
+    text-shadow: 1px 1px #f8bbd0;
+  }
+
+  .board {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+  }
+
+  .card h2 {
+    font-size: 1.3rem;
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: #6a1b9a;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+  }
+
+  .card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .card ul li {
+    padding: 5px 0;
+    border-bottom: 1px dotted #eee;
+  }
+
+  .card ul li:last-child {
+    border-bottom: none;
+  }
+
+  .highlight {
+    background: #fdf2f8;
+    border-left: 6px solid #ec407a;
+    padding: 12px;
+    border-radius: 8px;
+    font-style: italic;
+    margin-top: 10px;
+  }
+
+  /* Paleta de cores dos cards (efeito mural) */
+  .pink { background: #fff0f6; }
+  .yellow { background: #fff9e6; }
+  .purple { background: #f3e5f5; }
+  .blue { background: #e3f2fd; }
+  .green { background: #e8f5e9; }
+
+  /* Títulos especiais */
+  .dates h2, .gifts h2 {
+    color: #d84315;
+  }
+
+  .personality h2 {
+    color: #2e7d32;
+  }
+
+  .medical h2 {
+    color: #c62828;
+  }
+</style>
+</head>
+<body>
+
+<h1>💖 Mural Digital - Sobre Ela</h1>
+
+<div class="board">
+
+  <div class="card pink">
+    <h2>👗 Numerações</h2>
+    <ul>
+      <li>Saia e calça: <b>36 / PP</b></li>
+      <li>Blusa: <b>P</b></li>
+      <li>Pé: <b>35-36</b></li>
+      <li>Anel direito: <b>16</b></li>
+      <li>Anel esquerdo: <b>15</b></li>
+    </ul>
+  </div>
+
+  <div class="card yellow">
+    <h2>🍫 Gostos</h2>
+    <ul>
+      <li>Chocolate (Oreo Branco 💖)</li>
+      <li>Açaí</li>
+      <li>Cenoura crua</li>
+      <li>Batata de qualquer jeito</li>
+      <li>Kiwi • Ameixa</li>
+      <li>Purê de abóbora e batata</li>
+      <li>Pizza de rapadura</li>
+    </ul>
+    <h2>🚫 Não gosta</h2>
+    <ul>
+      <li>Pitaya • Beterraba</li>
+      <li>Leguminosas verdes</li>
+      <li>Chocolate amargo</li>
+      <li>Comidas sem gosto</li>
+    </ul>
+  </div>
+
+  <div class="card purple">
+    <h2>🎨 Cores</h2>
+    <ul>
+      <li><b>Favoritas:</b> Rosa, Roxo</li>
+      <li><b>Você acha lindas:</b> Amarelo, Rosa, Laranja</li>
+      <li><b>Indicadas:</b> Mostarda, Caramelo, Terracota, Coral, Vinho...</li>
+      <li><b>Evitar:</b> Branco puro, Preto, Lilás claro...</li>
+    </ul>
+  </div>
+
+  <div class="card blue">
+    <h2>👗 Estilo</h2>
+    <ul>
+      <li>Estilo <b>coreano</b></li>
+      <li>Modesto e elegante</li>
+      <li>Brincos apenas ouro/prata</li>
+      <li>Prefere prata a ouro</li>
+    </ul>
+  </div>
+
+  <div class="card green">
+    <h2>💄 Esmaltes & Maquiagem</h2>
+    <ul>
+      <li>Favoritos: Panqueca doce, Nude clássico, Rosa antigo</li>
+      <li>Marcas: Colorama, Impala, Risqué</li>
+      <li>Produtos: Sheglam, Mari Maria, Avon</li>
+      <li>Perfumes: Celebre, L'eau de Lily</li>
+      <li>Body splash: Flor de amora</li>
+    </ul>
+  </div>
+
+  <div class="card dates yellow">
+    <h2>🗓️ Datas Importantes</h2>
+    <ul>
+      <li>29/05 – Aniversário</li>
+      <li>30/05/25 – Assumiram os sentimentos</li>
+      <li>09/06/25 – Primeiro encontro</li>
+      <li>12/06/25 – Dia dos Namorados</li>
+      <li>20/06/25 – Primeiro beijo 💋</li>
+    </ul>
+    <div class="highlight">
+      “No fim de <i>Como Treinar o Seu Dragão</i>, nossos olhares se encontraram e o selinho tímido foi doce como a brisa da tarde.”
+    </div>
+  </div>
+
+  <div class="card gifts pink">
+    <h2>🎁 Ideias de Presentes</h2>
+    <ul>
+      <li>Vestido estilo coreano (PP/36)</li>
+      <li>Anel gravado (15/16)</li>
+      <li>Caixa de snacks personalizada</li>
+      <li>Kit cabelo SKALA + tiara fofa</li>
+      <li>Brincos delicados + cartão artesanal</li>
+      <li>Colar do primeiro beijo 💋</li>
+    </ul>
+  </div>
+
+  <div class="card personality green">
+    <h2>💖 Personalidade</h2>
+    <ul>
+      <li>Exala alegria</li>
+      <li>Ambivertida, um pouco tímida</li>
+      <li>Detalhista</li>
+      <li>Afetuosa e carinhosa</li>
+      <li>Ansiosa</li>
+      <li>Valoriza datas especiais</li>
+    </ul>
+  </div>
+
+  <div class="card medical purple">
+    <h2>🩺 Condições Médicas</h2>
+    <ul>
+      <li>Hiperidrose</li>
+      <li>Paralisia do sono</li>
+      <li>Astigmatismo</li>
+      <li>SOP</li>
+      <li>Alergia a nozes ⚠️</li>
+    </ul>
+  </div>
+
+  <div class="card blue">
+    <h2>🎬 Entretenimento</h2>
+    <ul>
+      <li>Doramas</li>
+      <li>Programa da Virgínia</li>
+      <li>Chaves (SBT)</li>
+      <li>Futsal</li>
+    </ul>
+    <h2>🎵 Música</h2>
+    <p>Sertanejo</p>
+  </div>
+
+  <div class="card pink">
+    <h2>🍧 Extras</h2>
+    <ul>
+      <li>Picolés: Ninho, coco, tapioca</li>
+      <li>Skimo • Milk Moo</li>
+      <li>Remédio: Buscofem</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
