@@ -2,238 +2,335 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Mural Digital - Sobre Ela</title>
-  <script src="script.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mural Digital - Tema Escuro</title>
 <style>
-  body {
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: #fdfdfd;
-    margin: 0;
-    padding: 30px;
-    line-height: 1.6;
-    color: #333;
+  :root{
+    --notion-bg: #1c1c1e; /* fundo escuro estilo Notion Dark */
+    --card-width: 280px;
+    --card-radius: 12px;
+    --accent: #ff7f50; /* destaque em coral */
+    --text-color: #e4e4e7; /* texto principal */
+    --text-muted: #a1a1aa; /* texto secundário */
   }
 
-  h1 {
+  html, body {
+    height: 100%;
+    margin: 0;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    background: var(--notion-bg);
+    color: var(--text-color);
+  }
+
+  .page {
+    max-width: 1100px;
+    margin: 28px auto;
+    padding: 22px;
+    box-sizing: border-box;
+  }
+
+  header h1 {
+    margin: 0 0 18px 0;
+    font-size: 2rem;
+    color: var(--accent);
     text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 40px;
-    color: #d81b60;
-    text-shadow: 1px 1px #f8bbd0;
+    letter-spacing: 0.2px;
+  }
+
+  .board-wrapper {
+    position: relative;
+    max-height: 72vh;
+    overflow: auto;
+    padding: 18px;
+    border-radius: 14px;
+    background: transparent;
   }
 
   .board {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(var(--card-width), 1fr));
+    gap: 22px;
+    align-items: start;
   }
 
   .card {
-    background: #fff;
-    border-radius: 14px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    width: 100%;
+    min-height: 120px;
+    background: #2c2c2e;
+    border-radius: var(--card-radius);
+    padding: 14px 14px 18px 14px;
+    box-shadow: 6px 8px 18px rgba(0, 0, 0, 0.8);
+    transform: rotate(-1deg);
+    transition: transform .18s ease, box-shadow .18s ease;
     position: relative;
-    overflow: hidden;
-    transition: transform 0.2s;
+    overflow: visible;
   }
-
   .card:hover {
-    transform: translateY(-5px);
+    transform: rotate(0deg) scale(1.03);
+    box-shadow: 8px 12px 26px rgba(0, 0, 0, 0.9);
   }
 
   .card h2 {
-    font-size: 1.3rem;
-    margin-top: 0;
-    margin-bottom: 12px;
-    color: #6a1b9a;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 5px;
+    margin: 0 0 10px 0;
+    font-size: 1.05rem;
+    color: #ffcccb;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 6px;
   }
 
   .card ul {
-    list-style: none;
-    padding: 0;
     margin: 0;
+    padding-left: 16px;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: var(--text-color);
   }
-
   .card ul li {
-    padding: 5px 0;
-    border-bottom: 1px dotted #eee;
+    margin: 6px 0;
+    list-style: "• ";
   }
 
-  .card ul li:last-child {
-    border-bottom: none;
+  .card::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-6deg);
+    width: 64px;
+    height: 20px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    border-radius: 4px;
+    filter: blur(.2px);
   }
+
+  .pink { background: #4b2c3a; }
+  .yellow { background: #4b452c; }
+  .blue { background: #2c3a4b; }
+  .green { background: #2c4b3a; }
+  .purple { background: #4b2c4b; }
 
   .highlight {
-    background: #fdf2f8;
-    border-left: 6px solid #ec407a;
-    padding: 12px;
-    border-radius: 8px;
-    font-style: italic;
     margin-top: 10px;
+    padding: 10px;
+    background: rgba(255, 127, 80, 0.1);
+    border-left: 4px solid rgba(255, 127, 80, 0.25);
+    border-radius: 6px;
+    font-style: italic;
+    color: #ffdfd1;
   }
 
-  /* Paleta de cores dos cards (efeito mural) */
-  .pink { background: #fff0f6; }
-  .yellow { background: #fff9e6; }
-  .purple { background: #f3e5f5; }
-  .blue { background: #e3f2fd; }
-  .green { background: #e8f5e9; }
-
-  /* Títulos especiais */
-  .dates h2, .gifts h2 {
-    color: #d84315;
+  .bottom-fade {
+    pointer-events: none;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    margin-top: 8px;
+    z-index: 40;
+    background: linear-gradient(180deg, rgba(28,28,30,0) 0%, var(--notion-bg) 85%);
+    display: block;
+    transition: opacity .25s ease;
+    opacity: 0.9;
   }
 
-  .personality h2 {
-    color: #2e7d32;
+  .bottom-fade::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 8px;
+    width: 64px;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+    border-radius: 2px;
   }
 
-  .medical h2 {
-    color: #c62828;
+  .board-wrapper.no-more .bottom-fade {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  @media (max-width: 720px) {
+    .page { padding: 14px; }
+    .card { transform: rotate(0deg); }
   }
 </style>
 </head>
 <body>
+  <div class="page">
+    <header><h1>💖 Mural Digital - Tema Escuro</h1></header>
 
-<h1>💖 Mural Digital - Sobre Ela</h1>
+    <div class="board-wrapper" id="boardWrapper">
+      <div class="board" id="board">
+        <div class="card pink">
+          <h2>👗 Numerações</h2>
+          <ul>
+            <li>Saia/Calça: <b>36 / PP</b></li>
+            <li>Blusa: <b>P</b></li>
+            <li>Pé: <b>35-36</b></li>
+            <li>Anel direito: <b>16</b></li>
+            <li>Anel esquerdo: <b>15</b></li>
+          </ul>
+        </div>
 
-<div class="board">
+        <div class="card yellow">
+          <h2>🍫 Gostos</h2>
+          <ul>
+            <li>Chocolate (Oreo Branco)</li>
+            <li>Açaí</li>
+            <li>Cenoura (crua)</li>
+            <li>Batata (qualquer jeito)</li>
+            <li>Kiwi • Ameixa</li>
+            <li>Purê de abóbora e batata</li>
+            <li>Pizza de rapadura</li>
+          </ul>
+        </div>
 
-  <div class="card pink">
-    <h2>👗 Numerações</h2>
-    <ul>
-      <li>Saia e calça: <b>36 / PP</b></li>
-      <li>Blusa: <b>P</b></li>
-      <li>Pé: <b>35-36</b></li>
-      <li>Anel direito: <b>16</b></li>
-      <li>Anel esquerdo: <b>15</b></li>
-    </ul>
-  </div>
+        <div class="card blue">
+          <h2>🚫 Não gosta</h2>
+          <ul>
+            <li>Pitaya</li>
+            <li>Beterraba</li>
+            <li>Leguminosas verdes</li>
+            <li>Chocolate amargo</li>
+            <li>Comidas sem gosto</li>
+          </ul>
+        </div>
 
-  <div class="card yellow">
-    <h2>🍫 Gostos</h2>
-    <ul>
-      <li>Chocolate (Oreo Branco 💖)</li>
-      <li>Açaí</li>
-      <li>Cenoura crua</li>
-      <li>Batata de qualquer jeito</li>
-      <li>Kiwi • Ameixa</li>
-      <li>Purê de abóbora e batata</li>
-      <li>Pizza de rapadura</li>
-    </ul>
-    <h2>🚫 Não gosta</h2>
-    <ul>
-      <li>Pitaya • Beterraba</li>
-      <li>Leguminosas verdes</li>
-      <li>Chocolate amargo</li>
-      <li>Comidas sem gosto</li>
-    </ul>
-  </div>
+        <div class="card purple">
+          <h2>🎨 Cores</h2>
+          <ul>
+            <li>Favoritas: Rosa, Roxo</li>
+            <li>Você acha: Amarelo, Rosa, Laranja</li>
+            <li>Indicadas: Mostarda, Caramelo, Terracota, Verde-esmeralda...</li>
+          </ul>
+        </div>
 
-  <div class="card purple">
-    <h2>🎨 Cores</h2>
-    <ul>
-      <li><b>Favoritas:</b> Rosa, Roxo</li>
-      <li><b>Você acha lindas:</b> Amarelo, Rosa, Laranja</li>
-      <li><b>Indicadas:</b> Mostarda, Caramelo, Terracota, Coral, Vinho...</li>
-      <li><b>Evitar:</b> Branco puro, Preto, Lilás claro...</li>
-    </ul>
-  </div>
+        <div class="card green">
+          <h2>💄 Esmaltes & Maquiagem</h2>
+          <ul>
+            <li>Panqueca doce • Chamego meu • Nude clássico • Rosa antigo</li>
+            <li>Marcas: Colorama, Impala, Risqué</li>
+            <li>Produtos: Sheglam, Mari Maria, Avon</li>
+          </ul>
+        </div>
 
-  <div class="card blue">
-    <h2>👗 Estilo</h2>
-    <ul>
-      <li>Estilo <b>coreano</b></li>
-      <li>Modesto e elegante</li>
-      <li>Brincos apenas ouro/prata</li>
-      <li>Prefere prata a ouro</li>
-    </ul>
-  </div>
-
-  <div class="card green">
-    <h2>💄 Esmaltes & Maquiagem</h2>
-    <ul>
-      <li>Favoritos: Panqueca doce, Nude clássico, Rosa antigo</li>
-      <li>Marcas: Colorama, Impala, Risqué</li>
-      <li>Produtos: Sheglam, Mari Maria, Avon</li>
-      <li>Perfumes: Celebre, L'eau de Lily</li>
-      <li>Body splash: Flor de amora</li>
-    </ul>
-  </div>
-
-  <div class="card dates yellow">
-    <h2>🗓️ Datas Importantes</h2>
-    <ul>
-      <li>29/05 – Aniversário</li>
-      <li>30/05/25 – Assumiram os sentimentos</li>
-      <li>09/06/25 – Primeiro encontro</li>
-      <li>12/06/25 – Dia dos Namorados</li>
-      <li>20/06/25 – Primeiro beijo 💋</li>
-    </ul>
-    <div class="highlight">
-      “No fim de <i>Como Treinar o Seu Dragão</i>, nossos olhares se encontraram e o selinho tímido foi doce como a brisa da tarde.”
-    </div>
-  </div>
-
-  <div class="card gifts pink">
-    <h2>🎁 Ideias de Presentes</h2>
-    <ul>
-      <li>Vestido estilo coreano (PP/36)</li>
-      <li>Anel gravado (15/16)</li>
-      <li>Caixa de snacks personalizada</li>
-      <li>Kit cabelo SKALA + tiara fofa</li>
-      <li>Brincos delicados + cartão artesanal</li>
-      <li>Colar do primeiro beijo 💋</li>
-    </ul>
-  </div>
-
-  <div class="card personality green">
-    <h2>💖 Personalidade</h2>
-    <ul>
-      <li>Exala alegria</li>
-      <li>Ambivertida, um pouco tímida</li>
-      <li>Detalhista</li>
-      <li>Afetuosa e carinhosa</li>
-      <li>Ansiosa</li>
-      <li>Valoriza datas especiais</li>
-    </ul>
-  </div>
-
-  <div class="card medical purple">
-    <h2>🩺 Condições Médicas</h2>
-    <ul>
-      <li>Hiperidrose</li>
-      <li>Paralisia do sono</li>
-      <li>Astigmatismo</li>
-      <li>SOP</li>
-      <li>Alergia a nozes ⚠️</li>
-    </ul>
-  </div>
-
-  <div class="card blue">
-    <h2>🎬 Entretenimento</h2>
-    <ul>
-      <li>Doramas</li>
-      <li>Programa da Virgínia</li>
-      <li>Chaves (SBT)</li>
-      <li>Futsal</li>
-    </ul>
-    <h2>🎵 Música</h2>
-    <p>Sertanejo</p>
-  </div>
-
-  <div class="card pink">
-    <h2>🍧 Extras</h2>
-    <ul>
-      <li>Picolés: Ninho, coco, tapioca</li>
-      <li>Skimo • Milk Moo</li>
-      <li>Remédio: Buscofem</li>
-    </ul>
-  </div>
-
+        <div class="card pink">
+          <h2>🗓️ Datas importantes</h2>
+          <ul>
+            <li>29/05 – Aniversário</li>
+            <li>30/05/25 – Assumiram os sentimentos</li>
+            <li>09/06/25 – Primeiro encontro</li>
+            <li>20/06/25 – Primeiro beijo</li>
+          </ul>
+        </div>
+        
+        <div class="card yellow">
+  <h2>👂 Brincos & 💍 Acessórios</h2>
+  <ul>
+    <li>Brincos: ouro ou prata (outros materiais causam inflamações)</li>
+    <li>Acessórios: prefere prata a ouro</li>
+  </ul>
 </div>
+
+<div class="card blue">
+  <h2>🎬 Entretenimento</h2>
+  <ul>
+    <li>Doramas</li>
+    <li>Programa da Virgínia</li>
+    <li>Chaves (SBT)</li>
+    <li>Gosta de futsal (mesmo com pouca habilidade)</li>
+  </ul>
+</div>
+
+<div class="card green">
+  <h2>🎵 Música & Autoimagem</h2>
+  <ul>
+    <li>Gênero musical: Sertanejo</li>
+    <li>Autoimagem: usa pouca ou nenhuma maquiagem</li>
+    <li>Cabelo: cacheado tipo 3C</li>
+    <li>Produtos de cabelo: cremes SKALA</li>
+  </ul>
+</div>
+
+<div class="card purple">
+  <h2>🩺 Condições médicas</h2>
+  <ul>
+    <li>Hiperidrose</li>
+    <li>Paralisia do sono</li>
+    <li>Astigmatismo</li>
+    <li>Síndrome do Ovário Policístico</li>
+    <li>Provável alergia a nozes (não comprar Ferrero Rocher)</li>
+  </ul>
+</div>
+
+<div class="card pink">
+  <h2>💖 Personalidade</h2>
+  <ul>
+    <li>Exala alegria</li>
+    <li>Ambivertida e um pouco tímida</li>
+    <li>Extremamente apegada aos detalhes</li>
+    <li>Afetuosa e carinhosa (até encher a paciência)</li>
+    <li>Ansiosa – evite sumir sem avisar</li>
+    <li>Valoriza datas especiais</li>
+  </ul>
+</div>
+
+
+<div class="card blue">
+  <h2>🍦 Sobremesas favoritas</h2>
+  <ul>
+    <li>Picolés e sorvetes variados</li>
+    <li>Ninho, coco, leite condensado e tapioca</li>
+    <li>Skimo • Milk Moo</li>
+    <li>Buscofem</li>
+  </ul>
+</div>
+
+<div class="card yellow">
+  <h2>🎁 Ideias de presentes</h2>
+  <ul>
+    <li>Vestido estilo coreano: PP / 36, cores: rosa queimado, mostarda, roxo berinjela, modesto e elegante (Shein, YesStyle, Shopee)</li>
+    <li>Anel com gravação: tamanho 15 (esq) ou 16 (dir), prata 925 ou ouro, gravação: “30/05/25” ou inicial</li>
+    <li>Caixa de snacks personalizada: Oreo branco, açaí com kiwi ou ameixa, chips de cenoura e batata, purê de abóbora (pote lacrado), embalagem rosa + laço roxo + bilhetinho</li>
+    <li>Kit cabelo SKALA + tiara fofa: 1-2 cremes SKALA, tiara de pelúcia rosa ou roxa, extras: espelhinho ou escova compacta</li>
+    <li>Brincos delicados + cartão artesanal: pequeno (coração, estrela, flor), prata, cartão com frase ou mini poema</li>
+    <li>Presente do primeiro beijo: colar com pingente coração/gota, gravação “20.06.25”, caixa veludo + bilhetinho, aroma lavanda opcional</li>
+  </ul>
+</div>
+
+<script>
+(function (){
+  const wrapper = document.getElementById('boardWrapper');
+  const fade = document.getElementById('bottomFade');
+
+  if (!wrapper || !fade) return;
+
+  function hasOverflow(el){
+    return el.scrollHeight > el.clientHeight + 1;
+  }
+
+  function updateFade(){
+    if (!hasOverflow(wrapper)) {
+      wrapper.classList.add('no-more');
+      return;
+    } else {
+      wrapper.classList.remove('no-more');
+    }
+
+    const nearBottom = wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 4;
+    if (nearBottom) wrapper.classList.add('no-more');
+    else wrapper.classList.remove('no-more');
+  }
+
+  window.addEventListener('load', () => { setTimeout(updateFade, 50); });
+  window.addEventListener('resize', updateFade);
+  const observer = new MutationObserver(updateFade);
+  observer.observe(document.getElementById('board'), { childList:true, subtree:true, characterData:true });
+  wrapper.addEventListener('scroll', updateFade);
+})();
+</script>
 </body>
 </html>
